@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 // --- CRITICAL: IMPORT THE SEPARATE CSS FILE HERE ---
-import "/Users/krismehra/Downloads/project/UserLogin.css"; 
+import "/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/UserLogin.css"; 
 
 
 export default function UserLogin() {
