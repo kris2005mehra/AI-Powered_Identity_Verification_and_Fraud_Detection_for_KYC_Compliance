@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import "/Users/krismehra/Downloads/project/src/components/ui/custom-cursor.css"; // <-- your CSS file
+import "/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/src/components/ui/custom-cursor.css"; // <-- your CSS file
 
 const CustomCursor = () => {
   useEffect(() => {
