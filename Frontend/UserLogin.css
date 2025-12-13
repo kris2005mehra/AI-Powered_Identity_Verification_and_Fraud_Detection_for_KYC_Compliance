@@ -1,0 +1,59 @@
+/* ---------------------------------------------------------
+   UserLogin.css - Holographic Neon-Edge Focus
+   --------------------------------------------------------- */
+
+/* Keyframes for the Neon Aura Glow */
+@keyframes neon-pulse {
+    0% {
+        box-shadow: 0 0 50px rgba(0, 150, 255, 0.4), 
+                    0 0 10px rgba(0, 150, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 80px rgba(0, 200, 255, 0.6), 
+                    0 0 20px rgba(0, 200, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 50px rgba(0, 150, 255, 0.4), 
+                    0 0 10px rgba(0, 150, 255, 0.2);
+    }
+}
+
+/* ------------------ Core Background Styling (Simpler) ------------------ */
+/* Remove complex background layers for better focus on the card */
+.kyc-security-background {
+    /* No animation necessary here, just a subtle background pattern */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    /* Using a simpler, subtle pattern */
+    background-image: radial-gradient(circle at center, rgba(0, 180, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+/* ------------------ Neon Aura Effect (Applied to the Card) ------------------ */
+.holographic-card-aura {
+    /* The animation is now on the card itself */
+    animation: neon-pulse 10s infinite alternate ease-in-out;
+}
+
+/* ------------------ Input Focus Effect (Enhanced) ------------------ */
+.input-focus-glow:focus {
+    box-shadow: 0 0 0 4px rgba(0, 180, 255, 0.2), 0 0 10px rgba(0, 180, 255, 0.5); /* Added neon shadow */
+    border-color: #00b4ff;
+}
+
+/* ------------------ Button Press Effect (Tactile Feedback) ------------------ */
+.submit-button-glow {
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+}
+
+.submit-button-glow:hover {
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
