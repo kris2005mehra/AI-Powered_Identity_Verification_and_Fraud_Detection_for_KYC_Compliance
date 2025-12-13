@@ -38,7 +38,7 @@ app.post("/verify", upload.single("file"), async (req, res) => {
     const data = await ocrResponse.json();
     console.log("📄 OCR Response:", data);
 
-    // Frontend-ready response
+    // Frontend response
     return res.json({
       cardType: data.card_type || "UNKNOWN",
       fraudScore: data.fraud_score ?? 0,
