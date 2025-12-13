@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import "/Users/krismehra/Downloads/project/UserLogin.css"; 
+import "/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/UserLogin.css"; 
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
