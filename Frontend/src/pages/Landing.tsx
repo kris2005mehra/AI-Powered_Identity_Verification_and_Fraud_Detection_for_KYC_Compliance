@@ -1,3 +1,4 @@
+import { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, Scan, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,41 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export default function Landing() {
   const navigate = useNavigate();
+
+   // === Seva Agent Chat State ===
+   type ChatMessage = {
+  sender: 'user' | 'agent';
+  text: string;
+};
+
+  const [openChat, setOpenChat] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+
+  const sendMessage = async () => {
+    if (!input) return;
+
+    // Add user message
+    setMessages(prev => [...prev, { sender: 'user', text: input }]);
+
+    try {
+      // Call your Seva Agent backend API
+      const res = await fetch('http://localhost:5000/api/seva-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input }),
+      });
+      const data = await res.json();
+
+      // Add agent response
+      setMessages(prev => [...prev, { sender: 'agent', text: data.reply }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { sender: 'agent', text: "Seva Agent is unavailable." }]);
+    }
+
+    setInput(""); // clear input
+  };
+
 
   return (
     <div
@@ -208,6 +244,93 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+    {/* ================== SEVA AGENT CHAT ================== */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        {/* Chat window */}
+        {openChat && (
+          <div className="w-80 h-96 bg-slate-900/95 border border-cyan-400/30 rounded-2xl shadow-xl flex flex-col overflow-hidden mb-4">
+            {/* Header */}
+            <div className="bg-slate-800 px-4 py-2 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <img
+                  src="/src/assets/seva-agent.png"
+                  alt="Seva Agent"
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-white font-semibold">Seva Agent</span>
+              </div>
+              <button
+                className="text-white font-bold"
+                onClick={() => setOpenChat(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Chat messages */}
+            <div className="flex-1 p-4 overflow-y-auto space-y-2">
+              {messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} items-end space-x-2`}
+                >
+                  {msg.sender === 'agent' && (
+                    <img
+                      src="/src/assets/seva-agent.png"
+                      alt="Seva Agent"
+                      className="w-6 h-6 rounded-full"
+                    />
+                  )}
+                  <span
+                    className={`px-3 py-2 rounded-2xl max-w-[70%] ${
+                      msg.sender === 'user' ? 'bg-cyan-500 text-white' : 'bg-slate-700 text-white'
+                    }`}
+                  >
+                    {msg.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Input */}
+            <div className="p-2 border-t border-slate-700 flex">
+              <input
+                type="text"
+                placeholder="Ask Seva Agent..."
+                className="flex-1 px-3 py-2 rounded-l-2xl bg-slate-800 text-white outline-none"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+              />
+              <button
+                onClick={sendMessage}
+                className="bg-cyan-500 hover:bg-cyan-600 px-4 rounded-r-2xl text-white font-semibold"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Floating Seva Agent Button */}
+        <button
+  onClick={() => setOpenChat(!openChat)}
+  className="flex flex-col items-center gap-1"
+>
+          <div className="w-16 h-16 rounded-full shadow-lg border-2 border-cyan-400 overflow-hidden hover:scale-105 transition-transform">
+           <img
+            src="/src/assets/seva-agent.png"
+            alt="Seva Agent"
+            className="w-full h-full"
+          />
+  </div>
+  {/* Namaste text */}
+  <span className="text-xs font-semibold text-cyan-400 tracking-wide">
+    Namaste
+  </span>
+</button>
+    
+      </div>
     </div>
   );
 }

@@ -14,6 +14,15 @@ app.use(express.json());
 // Multer → store upload in memory
 const upload = multer({ storage: multer.memoryStorage() });
 
+/* ===============================
+   SEVA AGENT AI FUNCTION
+   =============================== */
+import { askSevaAgent } from "./sevaAgent.js";
+
+
+/* ===============================
+   OCR + FRAUD VERIFICATION API
+   =============================== */
 app.post("/verify", upload.single("file"), async (req, res) => {
   console.log("🔥 /verify HIT");
 
@@ -30,7 +39,7 @@ app.post("/verify", upload.single("file"), async (req, res) => {
     });
 
     // Send the image file to FastAPI OCR
-    const ocrResponse = await fetch("http://127.0.0.1:6001/ocr", {
+    const ocrResponse = await fetch("http://127.0.0.1:8000/ocr", {
       method: "POST",
       body: formData,
     });
@@ -57,6 +66,33 @@ app.post("/verify", upload.single("file"), async (req, res) => {
   }
 });
 
+/* ===============================
+   SEVA AGENT CHAT API
+   =============================== */
+app.post("/api/seva-agent", async (req, res) => {
+  console.log("🧠 /api/seva-agent HIT");
+
+  try {
+    const { message } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    const reply = await askSevaAgent(message);
+    res.json({ reply });
+
+  } catch (err) {
+    console.error("❌ Seva Agent error:", err);
+    res.status(500).json({ error: "Seva Agent failed" });
+  }
+});
+
+
+
+/* ===============================
+   HEALTH CHECK
+   =============================== */
 app.get("/", (req, res) => {
   res.send("Backend running ✔");
 });
