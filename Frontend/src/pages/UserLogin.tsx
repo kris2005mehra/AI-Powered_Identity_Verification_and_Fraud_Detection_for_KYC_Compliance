@@ -7,13 +7,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import '/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/UserLogin.css';
+import '../../UserLogin.css';
 
 import userLoginBg from '@/assets/user-login.png';
 
 export default function UserLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function UserLogin() {
     e.preventDefault();
     setError('');
 
-    const success = login(email, password);
+    const success = login(email, password, fullName);
     if (success) {
       navigate('/user-dashboard');
     } else {
@@ -77,6 +78,20 @@ export default function UserLogin() {
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className="text-slate-300">
+                  Full Name (Optional)
+                </Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="e.g. Rajesh Kumar"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="bg-slate-900/60 border-cyan-400/30 text-white placeholder:text-slate-500 hover:border-cyan-400 focus:border-cyan-400 input-focus-glow"
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-slate-300">
                   Email Address

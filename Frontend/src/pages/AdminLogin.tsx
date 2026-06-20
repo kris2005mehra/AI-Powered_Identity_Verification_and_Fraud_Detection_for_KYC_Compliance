@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/card';
 
 
-import adminBg from '/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/src/assets/admin-login.png';
+import adminBg from '@/assets/admin-login.png';
 
 
-import '/Users/krismehra/AI-Powered_Identity_Verification_and_Fraud_Detection_for_KYC_Compliance/Frontend/UserLogin.css';
+import '../../UserLogin.css';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');

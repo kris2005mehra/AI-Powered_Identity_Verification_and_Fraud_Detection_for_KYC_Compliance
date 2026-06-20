@@ -54,6 +54,8 @@ export default function UserDashboard() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('type', docType);
+      formData.append('userName', user?.name || 'Unknown User');
+      formData.append('userEmail', user?.email || 'unknown@test.com');
 
       try {
         const res = await fetch('http://localhost:5000/verify', {

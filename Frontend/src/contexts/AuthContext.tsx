@@ -8,7 +8,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, password: string, customName?: string) => boolean;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -25,14 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (email: string, password: string): boolean => {
+  const login = (email: string, password: string, customName?: string): boolean => {
     if (email === 'admin@verifix.com' && password === 'admin123') {
       const adminUser = { email, role: 'admin' as const, name: 'Admin User' };
       setUser(adminUser);
       localStorage.setItem('verifix_user', JSON.stringify(adminUser));
       return true;
     } else if (email === 'user@test.com' && password === 'user123') {
-      const normalUser = { email, role: 'user' as const, name: 'Test User' };
+      const normalUser = { email, role: 'user' as const, name: customName || 'Test User' };
       setUser(normalUser);
       localStorage.setItem('verifix_user', JSON.stringify(normalUser));
       return true;
